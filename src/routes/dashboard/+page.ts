@@ -3,12 +3,12 @@ import { redirect } from '@sveltejs/kit';
 
 export const load: PageLoad = async ({ data }) => {
 	const session = data?.session;
-	console.log('dashboard.page.load parent session:', session);
+	console.log('dashboard.page.load parent session.user.email:', session?.user?.email);
 
 	if (!session) {
 		throw redirect(303, '/auth');
 	} else {
-		throw redirect(303, '/dashboard/cronjobs');
+		//throw redirect(303, '/dashboard/cronjobs');
 	}
 
 	//const ip_api_result = await event.fetch('https://ipapi.co/json');

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ProductTable from '$lib/components/dashboard/ProductTable.svelte';
 	import { Link2Icon } from 'svelte-feather-icons';
 

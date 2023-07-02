@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import UserTableAdmin from '$lib/components/dashboard/UserTableAdmin.svelte';
 	import { PlusIcon } from 'svelte-feather-icons';
 	import { page } from '$app/stores';

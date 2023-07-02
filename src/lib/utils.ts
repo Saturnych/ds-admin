@@ -39,25 +39,24 @@ export const logout = async (event) => {
 };
 
 export const userColor = (role: string) => {
-    if (role === 'admin') return 'stroke-warning';
-    if (role === 'super') return 'stroke-accent';
+    if (role === 'ADMIN') return 'stroke-warning';
+    if (role === 'SUPER') return 'stroke-accent';
     return '';
 }
 
 export const isAdmin = (role: string) => {
-    if (['admin', 'super'].includes(role))
+    if (['ADMIN', 'SUPER'].includes(role))
         return true;
     else return false;
 }
 
 export const isSuper = (role: string) => {
-    if (['super'].includes(role))
+    if (['SUPER'].includes(role))
         return true;
     else return false;
 }
 
 export const orgIdToName = (orgs: any, id: number) => {
-    console.log(orgs)
     const result = orgs.find(e => e.id == id)
     return result.name
 }

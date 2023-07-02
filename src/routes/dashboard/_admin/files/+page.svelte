@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { isAdmin, isSuper } from '$lib/utils';
 	import PUBLIC_ENV from '$lib/public';
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FileTableAdmin from '$lib/components/dashboard/FileTableAdmin.svelte';
 	import { toast } from '$lib/components/Toast';
 	import { PlusIcon } from 'svelte-feather-icons';

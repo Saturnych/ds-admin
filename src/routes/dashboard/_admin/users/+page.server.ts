@@ -1,39 +1,18 @@
 import type { PageServerLoad, Actions } from './$types';
-//import type { User } from '@supabase/supabase-js';
-//import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-//import { supabaseAdminClient as supabaseClient } from '$lib/server/supabase';
-//import { error, invalid } from '@sveltejs/kit';
-// import { redirect } from '@sveltejs/kit';
 import PUBLIC_ENV from '$lib/public';
 
-export const load: PageServerLoad = async (event) => {
-	const { session } = await getSupabase(event);
-
-	// console.log(session)
-	const org = session?.user.org;
-	const role = session?.user.role;
-	// console.log(org)
-
-	// GET USERS
-	const {
-		data: { users: users_all },
-		error: users_error
-	} = await supabaseClient.auth.admin.listUsers();
-	// console.log(users_all,users_error)
-
-	// GET ORGS (MAYBE ONLY IF IM SUPER?)
-	const { data: orgs, error: orgs_error } = await supabaseClient.from('orgs').select('id, name');
-	// console.log(orgs,orgs_error)
+export const load: PageServerLoad = async ({ data, parent }) => {
+	const { session } = data || await parent();
 
 	let users: User[] = [];
-	if (role === 'super') {
-		users = users_all;
+	if (session?.user?.role === 'SUPER') {
+		//users = users_all;
 	} else {
-		users = users_all.filter((user) => user.org == org);
+		//users = users_all.filter((user) => user.org == org);
 	}
 	// console.log(users)
 
-	return { users, orgs };
+	return { users };
 };
 
 export const actions: Actions = {
@@ -82,7 +61,7 @@ export const actions: Actions = {
 		const user = form_data.get('user');
 
 		if (user) {
-			const { data, error } = await supabaseClient.auth.admin.deleteUser(user.toString());
+			//const { data, error } = await supabaseClient.auth.admin.deleteUser(user.toString());
 		} else {
 			throw error(403, { message: 'USER NOT FOUND' });
 		}

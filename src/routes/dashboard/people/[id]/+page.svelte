@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import UserTableSimple from '$lib/components/dashboard/UserTableAdmin.svelte';
 	import UserTableAdvanced from '$lib/components/dashboard/UserTableAdvanced.svelte';
 

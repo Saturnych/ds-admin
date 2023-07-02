@@ -55,3 +55,10 @@
 	classNameTable={['table table-compact table-zebra']}
 	classNameRow="hover cursor-pointer"
 />
+
+<div class="flex justify-center w-full py-2 gap-2">
+	<a href="#item1" class="btn btn-xs">1</a>
+	<a href="#item2" class="btn btn-xs">2</a>
+	<a href="#item3" class="btn btn-xs">3</a>
+	<a href="#item4" class="btn btn-xs">4</a>
+</div>

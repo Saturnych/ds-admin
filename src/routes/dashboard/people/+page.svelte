@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import UserTableSimple from '$lib/components/dashboard/UserTableSimple.svelte';
 	/** @type {import('./$types').PageData} */
 	export let data;

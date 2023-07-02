@@ -2,6 +2,9 @@
 	import PUBLIC_ENV from '$lib/public';
 	import { page } from '$app/stores';
 	import { BellIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
+
+	$: session = $page.data?.session;
+	console.log('DashboardNavBar session.user.email:', session?.user?.email);
 </script>
 
 <!-- NAV BAR -->
@@ -9,7 +12,7 @@
 	<!-- APP TITLE  -->
 	<div class="flex-1">
 		<a href="/dashboard" class="link no-underline text-xl">
-			{PUBLIC_ENV.PUBLIC_APP_NAME}
+			{PUBLIC_ENV.PUBLIC_APP_NAME} / {session?.user?.role}
 		</a>
 	</div>
 

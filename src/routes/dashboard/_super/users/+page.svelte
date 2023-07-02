@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import UserTableAdmin from '$lib/components/dashboard/UserTableAdmin.svelte';
 
 	/** @type {import('./$types').PageData} */

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ContentTable from '$lib/components/dashboard/ContentTable.svelte';
 	import { Link2Icon } from 'svelte-feather-icons';
 
