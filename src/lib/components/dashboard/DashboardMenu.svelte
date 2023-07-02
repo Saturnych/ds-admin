@@ -49,7 +49,7 @@
 			<span slot="icon"><LayoutIcon /></span>
 		</NavBarButton>
 
-		<NavBarButton tooltip="Cronjobs" dest="/dashboard/cronjobs">
+		<NavBarButton tooltip="Games" dest="/dashboard/games">
 			<span slot="icon"><AirplayIcon /></span>
 		</NavBarButton>
 

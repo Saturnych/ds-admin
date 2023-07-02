@@ -1,11 +1,16 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { toast, Toast } from '$lib/components/Toast';
 	import RoleBadge from '$lib/components/dashboard/RoleBadge.svelte';
 
 	export let data: PageData;
 	// console.log(data);
 
 	const user = data.session?.user;
+
+	const action = () => {
+		toast.push('SAVED!', { classes: ['alert-success'] });
+	};
 </script>
 
 <form class="w-full max-w-sm" method="POST" action="?/save">
@@ -35,6 +40,6 @@
 			/>
 		</label>
 
-		<input type="submit" value="SAVE" class="btn btn-primary w-full" />
+		<input type="submit" value="SAVE" class="btn btn-primary w-full" on:click={action} />
 	</div>
 </form>

@@ -5,10 +5,10 @@
 
 	export let weather;
 
-	const series = weather.hourly.time.map((t, index) => {
+	const series = weather?.hourly?.time.map((t, index) => {
 		return {
 			x: new Date(t),
-			temp: weather.hourly.temperature_2m[index]
+			temp: weather?.hourly?.temperature_2m[index]
 		};
 	});
 

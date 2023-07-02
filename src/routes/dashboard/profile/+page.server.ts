@@ -1,10 +1,10 @@
-import type { PageServerLoad, Actions } from './$types';
 import { postAction, saveSession } from '$lib/utils';
+import type { PageServerLoad, Actions } from './$types';
 
-export const load: PageServerLoad = async (event) => {
-	const session = event.locals?.session?.data;
+export const load: PageServerLoad = async ({ data, locals, parent }) => {
+	const session = data?.session || locals?.session?.data || (await parent())?.session;
+	console.log('dashboard/profile load session:', session); // event.locals?.session?.data
 	const user = session?.user;
-	console.log('/profile session.user:', user);
 	return user;
 };
 

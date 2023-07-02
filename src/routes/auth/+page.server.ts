@@ -1,14 +1,12 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { error, invalid, fail, redirect } from '@sveltejs/kit';
 import { writable, get } from 'svelte/store';
 import type { Actions, PageServerLoad } from './$types';
 import { postAction, saveSession } from '$lib/utils';
 import { userId } from '$lib/stores';
 
-export const load: PageServerLoad = async (event) => {
-	const { session } = await event.parent();
-	console.log('auth.server.load session:', session, event.locals?.session?.data); // event.locals?.session?.data
-	// or
-	// event.locals.session.data;
+export const load: PageServerLoad = async ({ data, locals, parent }) => {
+	const session = data?.session || locals?.session?.data || (await parent())?.session;
+	console.log('auth.server.load session:', session); // event.locals?.session?.data
 
 	// Already logged in:
 	if (session?.userId) {
@@ -27,24 +25,15 @@ export const actions: Actions = {
 		const data = await postAction({ password, email });
 		console.error('signin data:', data);
 
-		if (!data || data?.error || data.statusCode>399) {
-			if (data?.error?.status === 400) {
-				return fail(400, {
-					error: 'Invalid credentials.',
-					values: {
-						email
-					}
-				});
-			}
-			return fail(500, {
-				error: 'Server error. Try again later.',
+		if (!data || data?.error || data?.status>399) {
+			return fail(data?.status || 400, {
+				error: data?.statusText || 'Server error',
 				values: {
 					email
 				}
 			});
 		} else {
 			const { accessToken, refreshToken, user } = data;
-			userId.set(user.id);
 			await saveSession(event, { userId: user.id, user, accessToken, refreshToken });
 		}
 

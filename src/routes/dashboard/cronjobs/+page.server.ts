@@ -1,7 +1,10 @@
-import { error, invalid } from '@sveltejs/kit';
+import { error, invalid, fail, redirect } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load(event) {
+export async function load({ data, locals, parent }) {
+  const session = data?.session || locals?.session?.data || (await parent())?.session;
+	console.log('dashboard/cronjobs load session:', session); // event.locals?.session?.data
+
 	//const { session, supabaseClient } = await getSupabase(event);
 	//console.log('cron.job supabaseClient.rest:', supabaseClient.rest);
 	//console.log('cron.job session:', session);

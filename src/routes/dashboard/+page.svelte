@@ -8,8 +8,7 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	$: session = data?.session;
-	console.log('dashboard/page session.user.email:', session?.user?.email);
+	console.log('dashboard/page session.user.email:', data.location);
 
 	const action = () => {
 		toast.push('TOAST!', { classes: ['alert-success'] });
@@ -20,7 +19,7 @@
 	<title>Dashboard</title>
 </svelte:head>
 
-<!--
+
 <div class="alert alert-success shadow-lg mb-5">
 	<div>
 		<svg
@@ -38,4 +37,30 @@
 		<span>Welcome to {PUBLIC_ENV.PUBLIC_APP_NAME}!</span>
 	</div>
 </div>
-//-->
+
+
+
+<div class="card flex-col bg-base-100 shadow-xl">
+	<div class="stats bg-primary text-primary-content">
+		<div class="stat">
+			<div class="stat-title">You are in</div>
+			<div class="stat-value">{data.location?.region} ({data.location?.country_name})</div>
+			<div class="stat-actions">
+				<button on:click={action} class="btn btn-sm btn-success">Yes I DO!</button>
+			</div>
+		</div>
+
+		<div class="stat">
+			<div class="stat-title">Temperature in {data.location?.city}</div>
+			<div class="stat-value">{data.weather?.current_weather?.temperature} ºC</div>
+			<div class="stat-actions">
+				<button class="btn btn-sm">i feel hot</button>
+				<button class="btn btn-sm">i feel cold</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card mt-5 p-3 bg-neutral shadow-xl">
+	<h1 class="text-center text-2xl font-bold">Temperature forecast at {data.location?.city}</h1>
+	<div><WeatherChart weather={data.weather} /></div>
+</div>

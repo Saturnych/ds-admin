@@ -1,35 +1,29 @@
 <script lang="ts">
 	import SvelteTable from 'svelte-table';
 
-	export let contents: Array<any> = [];
+	export let games: Array<any> = [];
 	export let error: string = '';
 	console.log('error:', error);
 
 	const columns = [
 		{
-			key: 'jobname',
-			title: 'jobname',
-			value: (v) => v.jobname,
+			key: 'startDate',
+			title: 'startDate',
+			value: (v) => v.startDate,
 			sortable: true
 		},
 		{
-			key: 'uri',
-			title: 'uri',
-			value: (v) => v.uri,
+			key: 'endDate',
+			title: 'endDate',
+			value: (v) => v.endDate,
 			sortable: true
 		},
 		{
-			key: 'status',
-			title: 'status',
-			value: (v) => v.status,
+			key: 'credits',
+			title: 'credits',
+			value: (v) => v.credits,
 			sortable: true
 		},
-		{
-			key: 'created',
-			title: 'created',
-			value: (v) => v.created_at,
-			sortable: true
-		}
 	];
 
 
@@ -37,7 +31,7 @@
 
 <SvelteTable
 	{columns}
-	rows={contents}
+	rows={games}
 	classNameTable={['table table-compact table-zebra']}
 	classNameRow="hover cursor-pointer"
 />
