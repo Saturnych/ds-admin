@@ -1,9 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
-//import type { User } from '@supabase/supabase-js';
-//import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { error, invalid, redirect } from '@sveltejs/kit';
-//import { supabaseAdminClient as supabaseClient } from '$lib/server/supabase';
-import { createHash, postWhisperTranscript } from '$lib/utils';
+import { createHash } from '$lib/utils';
 import PUBLIC_ENV from '$lib/public';
 
 const bucket = PUBLIC_ENV.PUBLIC_FILES_BUCKET;
@@ -122,6 +119,7 @@ export const actions: Actions = {
 					const format = PUBLIC_ENV.PUBLIC_ASR_FORMAT || 'json';
 					const form = new FormData();
 					form.append('audio_file', file);
+					/*
 					postWhisperTranscript(form, async function(res) {
 						console.log('postWhisperTranscript res:', res?.text);
 						if (res?.text) {
@@ -130,6 +128,7 @@ export const actions: Actions = {
 							if (!upload_error) throw redirect(303, event.url.pathname);
 						}
 					});
+					*/
 				}
 
 				const { data, error: upload_error } = await uploadFile(`${dir}/${hash}-${filename}`, fileBuffer);
