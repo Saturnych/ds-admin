@@ -28,7 +28,7 @@ export const actions: Actions = {
 			await saveSession(event, session);
 		}
 
-		//const { data, error } = await supabaseClient.auth.updateUser({ data: { name: user_name } });
-		//console.log(data, error);
+		const user = session?.user;
+		return user;
 	}
 };
