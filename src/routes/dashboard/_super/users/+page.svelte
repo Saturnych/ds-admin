@@ -4,13 +4,8 @@
 	import { page } from '$app/stores';
 	import { isAdmin, isSuper } from '$lib/utils';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
-	// console.log(data);
-
-	/** @type {import('./$types').ActionData} */
-	export let form;
-	// console.log(form);
+	export let data: PageData;
+	export let form: ActionData;
 
 	const role = $page.data.session.user.role ?? '';
 </script>
@@ -52,7 +47,7 @@
 					<span class="label-text">Email</span>
 				</label>
 				<input
-					autocomplete="username"
+					autocomplete="email"
 					id="email"
 					name="email"
 					class="input input-bordered"
@@ -80,23 +75,7 @@
 			</div>
 
 			<!-- ONLY SUPER CAN ADD USERS TO ANY ORG -->
-			{#if role == 'super'}
-				<div class="form-control">
-					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label class="label">
-						<span class="label-text">Organization</span>
-					</label>
-					<select id="organization" name="organization" class="select select-bordered">
-						<option disabled selected>Select Organization</option>
-						{#each data.orgs as org}
-							<option>{org.name.toUpperCase()}</option>
-						{/each}
-					</select>
-				</div>
-			{/if}
-
-			<!-- ONLY SUPER CAN ADD USERS TO ANY ORG -->
-			{#if role == 'super'}
+			{#if role == 'SUPER'}
 				<div class="form-control">
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
@@ -104,8 +83,8 @@
 					</label>
 					<select id="role" name="role" class="select select-bordered">
 						<option disabled selected>Select Role</option>
-						<option value="user">User</option>
-						<option value="admin">Admin</option>
+						<option value="USER">User</option>
+						<option value="ADMIN">Admin</option>
 					</select>
 				</div>
 			{/if}

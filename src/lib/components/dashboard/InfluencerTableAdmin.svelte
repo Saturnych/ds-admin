@@ -1,14 +1,10 @@
 <script lang="ts">
 	import Time from 'svelte-time';
 	import { TrashIcon } from 'svelte-feather-icons';
-
+	
 	export let influencers: any[] = [];
-	console.log(influencers)
-
 	let current: any = {};
-
 	function update(usr: any): any {
-		// console.log(usr);
 		current = usr;
 	}
 </script>
