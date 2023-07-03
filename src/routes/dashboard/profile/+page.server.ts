@@ -19,10 +19,10 @@ export const actions: Actions = {
 		const lastname = form_data.get('lastname');
 		console.log('profile SAVING:', firstname, lastname);
 
-		const data = await postAction({ id: session.userId, data: { firstname, lastname } }, session.accessToken, 'user', session.userId);
-		console.error('user.update data:', data);
+		const updated = await postAction({ id: session.userId, data: { firstname, lastname } }, session.accessToken, 'user', session.userId);
+		console.error('user.update:', updated);
 
-		if (data)	{
+		if (updated)	{
 			session.user.firstName = firstname;
 			session.user.lastname = lastname;
 			await saveSession(event, session);
