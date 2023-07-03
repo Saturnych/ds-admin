@@ -1,18 +1,16 @@
 <script lang="ts">
-	import UserTableAdmin from '$lib/components/dashboard/UserTableAdmin.svelte';
+	import InfluencerTableAdmin from '$lib/components/dashboard/InfluencerTableAdmin.svelte';
 	import { PlusIcon } from 'svelte-feather-icons';
 	import { page } from '$app/stores';
 	import { isAdmin, isSuper } from '$lib/utils';
+	import type { ActionData, PageData } from './$types';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
-	// console.log(data);
-
-	/** @type {import('./$types').ActionData} */
-	export let form;
-	// console.log(form);
+	export let data: PageData;
+	console.log('influencers data:', data);
+	export let form: ActionData;
 
 	const role = $page.data.session.user.role ?? '';
+	console.log('influencers role:', role);
 </script>
 
 {#if form}
@@ -31,13 +29,13 @@
 <div class="flex justify-end">
 	<label for="add-user-modal" class="my-5 btn btn-warning">
 		<PlusIcon class="mr-2 h-4 w-4" />
-		add user</label
+		add influencer</label
 	>
 </div>
 
 <div class="card flex-col lg:flex-row bg-base-300 shadow-xl">
 	<div class="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 overflow-y-scroll">
-		<UserTableAdmin users={data.users} />
+		<InfluencerTableAdmin influencers={data.influencers || []} />
 	</div>
 </div>
 
@@ -49,15 +47,15 @@
 			<div class="form-control">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
-					<span class="label-text">Email</span>
+					<span class="label-text">Name</span>
 				</label>
 				<input
-					autocomplete="username"
-					id="email"
-					name="email"
+					autocomplete="name"
+					id="name"
+					name="name"
 					class="input input-bordered"
-					type="email"
-					placeholder="email"
+					type="text"
+					placeholder="name"
 					required
 				/>
 			</div>
@@ -65,50 +63,48 @@
 			<div class="form-control">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
-					<span class="label-text">Password</span>
+					<span class="label-text">Cost (USD)</span>
 				</label>
-				<!-- <input type="text" placeholder="password" class="input input-bordered" /> -->
 				<input
-					autocomplete="current-password"
-					id="password"
-					name="password"
+					autocomplete="cost"
+					id="cost"
+					name="cost"
 					class="input input-bordered"
-					type="password"
-					placeholder="password"
+					type="text"
+					placeholder="cost"
 					required
 				/>
 			</div>
 
-			<!-- ONLY SUPER CAN ADD USERS TO ANY ORG -->
-			{#if role == 'super'}
 				<div class="form-control">
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
-						<span class="label-text">Organization</span>
+						<span class="label-text">Platform</span>
 					</label>
-					<select id="organization" name="organization" class="select select-bordered">
-						<option disabled selected>Select Organization</option>
-						{#each data.orgs as org}
-							<option>{org.name.toUpperCase()}</option>
-						{/each}
+					<select id="origin" name="origin" class="select select-bordered">
+						<option>Select Platform</option>
+						<option value="twitter" selected>twitter</option>
+						<option value="youtube">youtube</option>
+						<option value="instagram">instagram</option>
 					</select>
 				</div>
-			{/if}
 
-			<!-- ONLY SUPER CAN ADD USERS TO ANY ORG -->
-			{#if role == 'super'}
 				<div class="form-control">
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
-						<span class="label-text">Role</span>
+						<span class="label-text">Nickname</span>
 					</label>
-					<select id="role" name="role" class="select select-bordered">
-						<option disabled selected>Select Role</option>
-						<option value="user">User</option>
-						<option value="admin">Admin</option>
-					</select>
+					<input
+						autocomplete="nickname"
+						id="nickname"
+						name="nickname"
+						class="input input-bordered"
+						type="text"
+						placeholder="nickname"
+						required
+					/>
 				</div>
-			{/if}
+
 
 			<div class="form-control mt-6">
 				<!-- {#if form}

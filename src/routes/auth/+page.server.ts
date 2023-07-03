@@ -22,7 +22,7 @@ export const actions: Actions = {
 		const to = formData.get('to') as string;
 		console.error('signin formData:', formData);
 
-		const data = await postAction({ password, email });
+		const data = await postAction({ password, email }, '', 'auth', 'signin');
 		console.error('signin data:', data);
 
 		if (!data || data?.error || data?.status>399) {

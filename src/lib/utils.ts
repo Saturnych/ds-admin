@@ -43,7 +43,27 @@ export const myRole = (session: Session | null) => {
 
 export const createHash = (data, type = 'md5', enc = 'hex') =>  crypto.createHash(type).update(data).digest(enc);
 
-export const getAction = async (token: string = '', service: string = 'api', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
+export const deleteAction = async (token: string = '', service: string = 'api', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
+  try {
+    const uri = `/${service}${!!action ? '/'+action : ''}`;
+    console.info('deleteAction uri:', uri, 'Authorization:', !!token);
+    const headers = !!token ? { Authorization: `Bearer ${token}` } : {};
+    const axiosAuth = axios.create({
+      baseURL: `${PUBLIC_ENV.PUBLIC_API_BASEURI}/${PUBLIC_ENV.PUBLIC_API_VERSION}`,
+      headers,
+    });
+    if (cb) {
+      axiosAuth.delete(uri, params).then(resp => cb(resp?.data));
+    } else {
+      return (await axiosAuth.delete(uri, params))?.data;
+    }
+  } catch (error) {
+    console.error('Error:', error.code);
+		return { error };
+  }
+}
+
+export const getAction = async (token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
   try {
     const uri = `/${service}${!!action ? '/'+action : ''}`;
     console.info('getAction uri:', uri, 'Authorization:', !!token);
@@ -63,7 +83,7 @@ export const getAction = async (token: string = '', service: string = 'api', act
   }
 }
 
-export const postAction = async (form: Record<string,any>, token: string = '', service: string = 'auth', action: string = 'signin', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
+export const postAction = async (form: Record<string,any>, token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
   try {
     const uri = `/${service}${!!action ? '/'+action : ''}`;
     console.info('postAction uri:', uri, 'Authorization:', !!token, 'form:', form);

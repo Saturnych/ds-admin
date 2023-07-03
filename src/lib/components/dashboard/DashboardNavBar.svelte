@@ -4,7 +4,6 @@
 	import { BellIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
 
 	$: session = $page.data?.session;
-	console.log('DashboardNavBar session.user.email:', session?.user?.email);
 </script>
 
 <!-- NAV BAR -->
