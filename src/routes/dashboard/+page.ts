@@ -7,6 +7,8 @@ export const load: PageLoad = async ({ data, fetch }) => {
 
 	if (!session?.user) {
 		throw redirect(303, '/auth');
+	} else {
+		throw redirect(303, '/dashboard/games');
 	}
 
 	const ip_api_result = await fetch('https://ipapi.co/json');
