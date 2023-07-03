@@ -23,7 +23,7 @@
 	</div>
 {/if}
 
-{#if isSuper(role)}
+{#if isSuper(role) || isAdmin(role)}
 
 <!-- The button to open modal -->
 <div class="flex justify-end">
