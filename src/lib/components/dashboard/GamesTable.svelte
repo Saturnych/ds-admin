@@ -7,6 +7,12 @@
 
 	const columns = [
 		{
+			key: 'name',
+			title: 'name',
+			value: (v) => v.name,
+			sortable: true
+		},
+		{
 			key: 'startDate',
 			title: 'startDate',
 			value: (v) => v.startDate,
