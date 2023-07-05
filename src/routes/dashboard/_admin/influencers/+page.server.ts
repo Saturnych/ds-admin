@@ -36,7 +36,7 @@ export const actions: Actions = {
 		const token = await refreshSession(event);
 	  const added = await postAction({ data: influencer }, token, 'influencer');
 		console.log('dashboard/influencer create:', added);
-		if (!!added.name) {
+		if (!!added?.data?.name) {
 		  const { data } = await getAction(token, 'influencer');
 		  console.log('dashboard/influencer create influencers:', data);
 			if (data) influencers = data;
@@ -56,7 +56,7 @@ export const actions: Actions = {
 			const token = await refreshSession(event);
 		  const deleted = await deleteAction(token, 'influencer', id);
 			console.log('dashboard/influencer delete:', deleted);
-			if (deleted.data) {
+			if (deleted?.data) {
 			  const { data } = await getAction(token, 'influencer');
 			  console.log('dashboard/influencer delete influencers:', data);
 				if (data) influencers = data;

@@ -22,7 +22,7 @@ export const actions: Actions = {
 		const updated = await postAction({ id: session.userId, data: { firstname, lastname } }, session.accessToken, 'user', session.userId);
 		console.error('user.update:', updated);
 
-		if (updated)	{
+		if (updated?.data)	{
 			session.user.firstName = firstname;
 			session.user.lastname = lastname;
 			await saveSession(event, session);

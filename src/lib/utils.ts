@@ -134,11 +134,11 @@ export const refreshSession = async (event) => {
 	const session = event.locals?.session?.data || event.data?.session;
 	if (!session) return null;
 
-	const data = await postAction({ token: session.refreshToken, type: 'Access'}, '', 'auth', 'token');
-  console.log('refreshSession data:', data);
+	const post = await postAction({ token: session.refreshToken, type: 'Access'}, '', 'auth', 'token');
+  console.log('refreshSession post:', post);
 
-  if (!!data.token) {
-    session.accessToken = data.token;
+  if (!!post?.data?.token) {
+    session.accessToken = post.data.token;
     await saveSession(event, session);
   }
 	//await event.locals.session.refresh(/** Optional new expiration time in days */);

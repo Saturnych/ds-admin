@@ -22,18 +22,18 @@ export const actions: Actions = {
 		const to = formData.get('to') as string;
 		console.error('signin formData:', formData);
 
-		const data = await postAction({ password, email }, '', 'auth', 'signin');
-		console.error('signin data:', data);
+		const post = await postAction({ password, email }, '', 'auth', 'signin');
+		console.error('signin post:', post);
 
-		if (!data || data?.error || data?.status>399) {
-			return fail(data?.status || 400, {
-				error: data?.statusText || 'Server error',
+		if (!post || post?.error || post?.status>399 || !post?.data) {
+			return fail(post?.status || 400, {
+				error: post?.statusText || 'Server error',
 				values: {
 					email
 				}
 			});
 		} else {
-			const { accessToken, refreshToken, user } = data;
+			const { accessToken, refreshToken, user } = post.data;
 			await saveSession(event, { userId: user.id, user, accessToken, refreshToken });
 		}
 
