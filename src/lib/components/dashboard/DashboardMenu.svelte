@@ -65,6 +65,10 @@
 			<NavBarButton tooltip="Influencers" dest="/dashboard/_admin/influencers">
 				<span slot="icon"><RadioIcon /></span>
 			</NavBarButton>
+
+			<NavBarButton tooltip="Tariffs" dest="/dashboard/_admin/tariffs">
+				<span slot="icon"><ArchiveIcon /></span>
+			</NavBarButton>
 		{/if}
 
 		<div class="max-md:my-0 divider" />
