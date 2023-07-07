@@ -5,7 +5,14 @@
 	export let error: string = '';
 	console.log('error:', error);
 
+	let i = 0;
 	const columns = [
+		{
+			key: 'num',
+			title: 'num',
+			value: (v) => ++i,
+			sortable: true
+		},
 		{
 			key: 'name',
 			title: 'name',

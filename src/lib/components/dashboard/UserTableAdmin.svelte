@@ -13,6 +13,7 @@
 <table class="table w-full">
 	<thead>
 		<tr>
+			<th>num</th>
 			<th>email</th>
 			<th>role</th>
 			<th>firstname</th>
@@ -20,8 +21,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each users as user}
+		{#each users as user, i}
 			<tr>
+				<td>{i+1}</td>
 				<td>{user.email}</td>
 				<td>
 					<RoleBadge role={user.role} />

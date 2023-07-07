@@ -25,7 +25,7 @@
 <table class="table w-full">
 	<thead>
 		<tr>
-			<th>ID</th>
+			<th>num</th>
 			<th>filename</th>
 			<th>filesize</th>
 			<th>created at</th>

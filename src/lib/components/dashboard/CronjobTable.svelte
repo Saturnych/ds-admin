@@ -3,7 +3,14 @@
 	export let cronjobs: Array<any> = [];
 	export let error: string = '';
 
+	let i = 0;
 	const columns = [
+		{
+			key: 'num',
+			title: 'num',
+			value: (v) => ++i,
+			sortable: true
+		},
 		{
 			key: 'jobname',
 			title: 'jobname',

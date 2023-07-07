@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Time from 'svelte-time';
 	import { TrashIcon } from 'svelte-feather-icons';
-	
+
 	export let influencers: any[] = [];
 	let current: any = {};
 	function update(usr: any): any {
@@ -12,6 +12,7 @@
 <table class="table w-full">
 	<thead>
 		<tr>
+			<th>num</th>
 			<th>name</th>
 			<th>cost</th>
 			<th>created</th>
@@ -19,11 +20,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each influencers as influencer}
+		{#each influencers as influencer, i}
 			<tr>
-				<td>
-					{influencer.name}
-				</td>
+				<td>{i+1}</td>
+				<td>{influencer.name}</td>
 				<td>
 					${Math.round(influencer.cents/100)}
 				</td>
@@ -31,7 +31,7 @@
 					<Time timestamp={influencer.createdAt} />
 				</td>
 				<td>
-					{@html influencer.platforms}
+					{JSON.stringify(influencer.platforms)}
 				</td>
 				<td>
 					<!-- svelte-ignore a11y-click-events-have-key-events -->

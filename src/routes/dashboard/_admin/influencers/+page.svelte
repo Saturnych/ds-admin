@@ -44,26 +44,24 @@
 <div class="modal">
 	<div class="modal-box">
 		<form method="POST" action="?/create">
+
 			<div class="form-control">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
-					<span class="label-text">Name</span>
+					<span class="label-text">Platform</span>
 				</label>
-				<input
-					autocomplete="name"
-					id="name"
-					name="name"
-					class="input input-bordered"
-					type="text"
-					placeholder="name"
-					required
-				/>
+				<select id="origin" name="origin" class="select select-bordered">
+					<option>Select Platform</option>
+					<option value="youtube" selected>youtube</option>
+					<option value="instagram">instagram</option>
+					<option value="twitter">twitter</option>
+				</select>
 			</div>
 
 			<div class="form-control">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
-					<span class="label-text">Cost (USD)</span>
+					<span class="label-text">Influencer USD Cost</span>
 				</label>
 				<input
 					autocomplete="cost"
@@ -76,18 +74,21 @@
 				/>
 			</div>
 
-				<div class="form-control">
-					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label class="label">
-						<span class="label-text">Platform</span>
-					</label>
-					<select id="origin" name="origin" class="select select-bordered">
-						<option>Select Platform</option>
-						<option value="twitter" selected>twitter</option>
-						<option value="youtube">youtube</option>
-						<option value="instagram">instagram</option>
-					</select>
-				</div>
+			<div class="form-control">
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<label class="label">
+					<span class="label-text">Influencer Name</span>
+				</label>
+				<input
+					autocomplete="name"
+					id="name"
+					name="name"
+					class="input input-bordered"
+					type="text"
+					placeholder="name"
+					required
+				/>
+			</div>
 
 				<div class="form-control">
 					<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -105,6 +106,21 @@
 					/>
 				</div>
 
+				<div class="form-control">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
+					<label class="label">
+						<span class="label-text">Page ID</span>
+					</label>
+					<input
+						autocomplete="id_str"
+						id="id_str"
+						name="id_str"
+						class="input input-bordered"
+						type="text"
+						placeholder="id_str"
+						required
+					/>
+				</div>
 
 			<div class="form-control mt-6">
 				<!-- {#if form}
