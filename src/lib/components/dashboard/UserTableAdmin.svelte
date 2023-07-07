@@ -14,9 +14,10 @@
 	<thead>
 		<tr>
 			<th>num</th>
-			<th>email</th>
 			<th>role</th>
+			<th>email</th>
 			<th>firstname</th>
+			<th>credits</th>
 			<th>created</th>
 		</tr>
 	</thead>
@@ -24,13 +25,15 @@
 		{#each users as user, i}
 			<tr>
 				<td>{i+1}</td>
-				<td>{user.email}</td>
+
 				<td>
 					<RoleBadge role={user.role} />
 				</td>
+				<td>{user.email}</td>
 				<td>
 					{#if user.firstname}{user.firstname}{/if}
 				</td>
+				<td>{user.credits}</td>
 				<td>
 					<Time timestamp={user.createdAt} />
 				</td>
