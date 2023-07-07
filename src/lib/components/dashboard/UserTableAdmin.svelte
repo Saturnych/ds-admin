@@ -15,6 +15,7 @@
 		<tr>
 			<th>num</th>
 			<th>role</th>
+			<th>verified</th>
 			<th>email</th>
 			<th>firstname</th>
 			<th>credits</th>
@@ -29,6 +30,7 @@
 				<td>
 					<RoleBadge role={user.role} />
 				</td>
+				<td>{user.verified}</td>
 				<td>{user.email}</td>
 				<td>
 					{#if user.firstname}{user.firstname}{/if}
