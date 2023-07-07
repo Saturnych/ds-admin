@@ -5,4 +5,4 @@
 	export let data: PageData;
 </script>
 
-<GamesTable games={data.games} error={data.error} />
+<GamesTable games={data.games?.list || []} error={data.error} />

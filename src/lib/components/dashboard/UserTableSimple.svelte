@@ -35,7 +35,7 @@
 							</div>
 						</div>
 						<div>
-							<div class="font-bold">{user.firstName} {user.lastName}</div>
+							<div class="font-bold">{user.firstname} {user.lastname}</div>
 							<div class="text-sm opacity-50">{user.address.city}</div>
 						</div>
 					</div>

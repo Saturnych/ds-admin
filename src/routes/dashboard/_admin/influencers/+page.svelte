@@ -35,7 +35,7 @@
 
 <div class="card flex-col lg:flex-row bg-base-300 shadow-xl">
 	<div class="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 overflow-y-scroll">
-		<InfluencerTableAdmin influencers={data.influencers || []} />
+		<InfluencerTableAdmin influencers={data.influencers?.list || []} />
 	</div>
 </div>
 

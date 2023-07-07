@@ -23,7 +23,7 @@ export const actions: Actions = {
 		console.error('user.update:', updated);
 
 		if (updated?.data)	{
-			session.user.firstName = firstname;
+			session.user.firstname = firstname;
 			session.user.lastname = lastname;
 			await saveSession(event, session);
 		}

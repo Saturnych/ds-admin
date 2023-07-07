@@ -4,15 +4,15 @@
 
 	const columns = [
 		{
-			key: 'firstName',
-			title: 'Name',
-			value: (v) => v.firstName,
+			key: 'firstname',
+			title: 'Firstname',
+			value: (v) => v.firstname,
 			sortable: true
 		},
 		{
-			key: 'firstName',
-			title: 'Name',
-			value: (v) => v.firstName,
+			key: 'lastname',
+			title: 'Lastname',
+			value: (v) => v.lastname,
 			sortable: true
 		}
 	];

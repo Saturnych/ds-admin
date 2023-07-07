@@ -4,7 +4,7 @@
 	import RoleBadge from '$lib/components/dashboard/RoleBadge.svelte';
 
 	export let data: PageData;
-	// console.log(data);
+	console.log(data);
 
 	const user = data.session?.user;
 
