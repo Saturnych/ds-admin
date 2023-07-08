@@ -43,10 +43,10 @@ export const myRole = (session: Session | null) => {
 
 export const createHash = (data, type = 'md5', enc = 'hex') =>  crypto.createHash(type).update(data).digest(enc);
 
-export const deleteAction = async (token: string = '', service: string = 'api', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
+export const deleteAction = async (token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<Record<string,any>> => {
   try {
     const uri = `/${service}${!!action ? '/'+action : ''}`;
-    console.info('deleteAction uri:', uri, 'Authorization:', !!token);
+    if (PUBLIC_ENV.DEV) console.info('deleteAction uri:', uri, 'Authorization:', !!token);
     const headers = !!token ? { Authorization: `Bearer ${token}` } : {};
     const axiosAuth = axios.create({
       baseURL: `${PUBLIC_ENV.PUBLIC_API_BASEURI}/${PUBLIC_ENV.PUBLIC_API_VERSION}`,
@@ -63,10 +63,10 @@ export const deleteAction = async (token: string = '', service: string = 'api', 
   }
 }
 
-export const getAction = async (token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
+export const getAction = async (token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<Record<string,any>> => {
   try {
     const uri = `/${service}${!!action ? '/'+action : ''}`;
-    console.info('getAction uri:', uri, 'Authorization:', !!token);
+    if (PUBLIC_ENV.DEV) console.info('getAction uri:', uri, 'Authorization:', !!token);
     const headers = !!token ? { Authorization: `Bearer ${token}` } : {};
     const axiosAuth = axios.create({
       baseURL: `${PUBLIC_ENV.PUBLIC_API_BASEURI}/${PUBLIC_ENV.PUBLIC_API_VERSION}`,
@@ -83,10 +83,10 @@ export const getAction = async (token: string = '', service: string = '', action
   }
 }
 
-export const postAction = async (form: Record<string,any>, token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<any> => {
+export const postAction = async (form: Record<string,any>, token: string = '', service: string = '', action: string = '', params: Record<string,any> = {}, cb?: Function): Promise<Record<string,any>> => {
   try {
     const uri = `/${service}${!!action ? '/'+action : ''}`;
-    console.info('postAction uri:', uri, 'Authorization:', !!token, 'form:', form);
+    if (PUBLIC_ENV.DEV) console.info('postAction uri:', uri, 'Authorization:', !!token, 'form:', form);
     //const buff = new Buffer(`${PUBLIC_ENV.PUBLIC_ASR_USER}:${PUBLIC_ENV.PUBLIC_ASR_PASSWORD}`);
     const headers = !!token ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }; // Authorization: `Basic ${buff.toString('base64')}`
     const axiosAuth = axios.create({
@@ -106,7 +106,7 @@ export const postAction = async (form: Record<string,any>, token: string = '', s
   }
 };
 
-export const destroySession = async (event) => {
+export const destroySession = async (event): Promise<void> => {
 	if (event.locals?.session) await event.locals.session.destroy();
 	userId.set('');
 	event.cookies.set('uid', '', {
@@ -118,7 +118,7 @@ export const destroySession = async (event) => {
 	});
 };
 
-export const saveSession = async (event, data) => {
+export const saveSession = async (event, data): Promise<void> => {
 	if (event.locals?.session) await event.locals.session.set(data);
 	userId.set(data?.userId);
 	if (!!data.userId) event.cookies.set('uid', data.userId, {
@@ -130,12 +130,12 @@ export const saveSession = async (event, data) => {
 	});
 };
 
-export const refreshSession = async (event) => {
+export const refreshSession = async (event): Promise<string> => {
 	const session = event.locals?.session?.data || event.data?.session;
 	if (!session) return null;
 
 	const post = await postAction({ token: session.refreshToken, type: 'Access'}, '', 'auth', 'token');
-  console.log('refreshSession post:', post);
+  if (PUBLIC_ENV.DEV) console.log('refreshSession post:', post);
 
   if (!!post?.data?.token) {
     session.accessToken = post.data.token;
@@ -145,9 +145,38 @@ export const refreshSession = async (event) => {
 	return session.accessToken;
 };
 
-export const logout = async (event) => {
+export const logout = async (event: any, redirectPath: string = '/auth'): Promise<void> => {
 	await destroySession(event);
 	userId.update('');
-	throw redirect(303, '/auth');
-	return {};
+	throw redirect(303, redirectPath);
+};
+
+export const deleteData = async (event: any, token: string, service: string = '', action: string = '', params: Record<string,any> = {}) => {
+	let result = await deleteAction(token, service, action, params);
+  if (PUBLIC_ENV.DEV) console.info('deleteData:', service, action, params, 'result:', result);
+  if (result.error) {
+    token = await refreshSession(event);
+    result = await deleteAction(token, service, action, params);
+  }
+  return result;
+};
+
+export const getData = async (event: any, token: string, service: string = '', action: string = '', params: Record<string,any> = {}) => {
+	let result = await getAction(token, service, action, params);
+  if (PUBLIC_ENV.DEV) console.info('getData:', service, action, params, 'result:', result);
+  if (result.error) {
+    token = await refreshSession(event);
+    result = await getAction(token, service, action, params);
+  }
+  return result;
+};
+
+export const postData = async (event: any, data: Record<string,any>, token: string, service: string = '', action: string = '', params: Record<string,any> = {}) => {
+	let result = await postAction(data, token, service, action, params);
+  if (PUBLIC_ENV.DEV) console.info('postData:', service, action, params, 'result:', result);
+  if (result.error) {
+    token = await refreshSession(event);
+    result = await postAction(data, token, service, action, params);
+  }
+  return result;
 };

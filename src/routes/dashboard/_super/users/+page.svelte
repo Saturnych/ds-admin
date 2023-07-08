@@ -82,8 +82,8 @@
 						<span class="label-text">Role</span>
 					</label>
 					<select id="role" name="role" class="select select-bordered">
-						<option disabled selected>Select Role</option>
-						<option value="USER">User</option>
+						<option>Select Role</option>
+						<option value="USER" selected>User</option>
 						<option value="ADMIN">Admin</option>
 					</select>
 				</div>

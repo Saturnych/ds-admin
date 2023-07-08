@@ -1,11 +1,10 @@
 import { error, invalid, fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { refreshSession, postAction, getAction, deleteAction } from '$lib/utils';
+import { postData, getData, deleteData } from '$lib/utils';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.data?.session || event.locals?.session?.data || (await event.parent())?.session;
-	const token = await refreshSession(event);
-	const { data } = await getAction(token, 'influencer');
+	const { data } = await getData(event, session.accessToken, 'influencer');
 	return { influencers: data };
 };
 
@@ -35,11 +34,10 @@ export const actions: Actions = {
 				}
 			]
 		}
-		const token = await refreshSession(event);
-	  const added = await postAction({ data: influencer }, token, 'influencer');
+	  const added = await postData(event, { data: influencer }, session.accessToken, 'influencer');
 		console.log('dashboard/influencer create:', added);
 		if (!!added?.data?.name) {
-		  const { data } = await getAction(token, 'influencer');
+		  const { data } = await getData(event, session.accessToken, 'influencer');
 		  console.log('dashboard/influencer create influencers:', data);
 			if (data) influencers = data;
 		}
@@ -55,11 +53,10 @@ export const actions: Actions = {
 		const form_data = await event.request.formData();
 		const id = form_data.get('id');
 		if (id) {
-			const token = await refreshSession(event);
-		  const deleted = await deleteAction(token, 'influencer', id);
+		  const deleted = await deleteData(event, session.accessToken, 'influencer', id);
 			console.log('dashboard/influencer delete:', deleted);
 			if (deleted?.data) {
-			  const { data } = await getAction(token, 'influencer');
+			  const { data } = await getData(event, session.accessToken, 'influencer');
 			  console.log('dashboard/influencer delete influencers:', data);
 				if (data) influencers = data;
 			}
