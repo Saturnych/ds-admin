@@ -1,10 +1,16 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { logout } from '$lib/utils';
+import PUBLIC_ENV from '$lib/public';
 
 export const load = async (event) => {
-	const session = event.locals?.session?.data;
-	console.log('page.server.load session?.user?.email:', session?.user?.email);
-	throw redirect(303, '/auth');
+	const session = event.data?.session || event.locals?.session?.data;
+	if (PUBLIC_ENV.DEV) console.log('page.server.load session?.user?.email:', session?.user?.email);
+	if (!['ADMIN','SUPER'].includes(session?.user?.role)) {
+		return logout(event, '/auth');
+	} else {
+		throw redirect(303, '/dashboard');
+	}
 };
 
 export const actions: Actions = {

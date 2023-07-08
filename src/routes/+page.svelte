@@ -7,12 +7,12 @@
 
 	let uid;
 	userId.subscribe((id) => {
-		console.log('userId:', id);
+		if (PUBLIC_ENV.DEV) console.log('userId:', id);
 		uid = id;
 	});
 
 	$: session = $page.data?.session;
-	console.log('page.svelte $page.data:', $page.data, uid);
+	if (PUBLIC_ENV.DEV) console.log('page.svelte $page.data:', $page.data, uid);
 </script>
 
 <svelte:head>

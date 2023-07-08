@@ -11,7 +11,7 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	create: async (event) => {
 		const session = event.data?.session || event.locals?.session?.data || (await event.parent())?.session;
-		if (!session || !['ADMIN', 'SUPER'].includes(session.user.role)) {
+		if (!['ADMIN', 'SUPER'].includes(session?.user?.role)) {
 			throw error(403, { message: 'Unauthorized' });
 		}
 
@@ -46,7 +46,7 @@ export const actions: Actions = {
 
 	delete: async (event) => {
 		const session = event.data?.session || event.locals?.session?.data || (await event.parent())?.session;
-		if (!session || !['ADMIN', 'SUPER'].includes(session.user.role)) {
+		if (!['ADMIN', 'SUPER'].includes(session?.user?.role)) {
 			throw error(403, { message: 'Unauthorized' });
 		}
 		let influencers: any[] = [];

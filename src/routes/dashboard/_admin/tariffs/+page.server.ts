@@ -1,6 +1,7 @@
 import { error, invalid, fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { postData, getData, deleteData } from '$lib/utils';
+import PUBLIC_ENV from '$lib/public';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.data?.session || event.locals?.session?.data || (await event.parent())?.session;
@@ -11,7 +12,7 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	create: async (event) => {
 		const session = event.data?.session || event.locals?.session?.data || (await event.parent())?.session;
-		if (!session || !['ADMIN', 'SUPER'].includes(session.user.role)) {
+		if (!['ADMIN', 'SUPER'].includes(session?.user?.role)) {
 			throw error(403, { message: 'Unauthorized' });
 		}
 
@@ -26,7 +27,7 @@ export const actions: Actions = {
 			cents,
 		}
 	  const added = await postData(event, { data: tariff }, session.accessToken, 'tariff');
-		console.log('dashboard/tariff create:', added);
+		if (PUBLIC_ENV.DEV) console.log('dashboard/tariff create:', added);
 		if (!!added?.data?.name) {
 		  const { data } = await getData(event, session.accessToken, 'tariff');
 		  console.log('dashboard/tariff create tariffs:', data);
@@ -37,7 +38,7 @@ export const actions: Actions = {
 
 	delete: async (event) => {
 		const session = event.data?.session || event.locals?.session?.data || (await event.parent())?.session;
-		if (!session || !['ADMIN', 'SUPER'].includes(session.user.role)) {
+		if (!['ADMIN', 'SUPER'].includes(session?.user?.role)) {
 			throw error(403, { message: 'Unauthorized' });
 		}
 		let tariffs: any[] = [];
@@ -45,10 +46,10 @@ export const actions: Actions = {
 		const id = form_data.get('id');
 		if (id) {
 		  const deleted = await deleteData(event, session.accessToken, 'tariff', id);
-			console.log('dashboard/tariff delete:', deleted);
+			if (PUBLIC_ENV.DEV) console.log('dashboard/tariff delete:', deleted);
 			if (deleted?.data) {
 			  const { data } = await getData(event, session.accessToken, 'tariff');
-			  console.log('dashboard/tariff delete tariffs:', data);
+			  if (PUBLIC_ENV.DEV) console.log('dashboard/tariff delete tariffs:', data);
 				if (data) tariffs = data;
 			}
 		} else {

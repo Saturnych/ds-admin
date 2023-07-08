@@ -1,9 +1,10 @@
 <script lang="ts">
 	import SvelteTable from 'svelte-table';
+	import PUBLIC_ENV from '$lib/public';
 
 	export let games: Array<any> = [];
 	export let error: string = '';
-	console.log('error:', error);
+	if (PUBLIC_ENV.DEV) console.log('error:', error);
 
 	let i = 0;
 	const columns = [

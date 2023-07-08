@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import type { Session } from 'svelte-kit-cookie-session';
 import { redirect } from '@sveltejs/kit';
 import { dev } from '$app/environment';
-import { userId } from '$lib/stores';
+import { userId, accessToken } from '$lib/stores';
 import PUBLIC_ENV from '$lib/public';
 
 export const userColor = (role: string) => {
@@ -107,27 +107,32 @@ export const postAction = async (form: Record<string,any>, token: string = '', s
 };
 
 export const destroySession = async (event): Promise<void> => {
-	if (event.locals?.session) await event.locals.session.destroy();
 	userId.set('');
+  accessToken.set('');
 	event.cookies.set('uid', '', {
 		path: '/',
 		httpOnly: true,
 		sameSite: 'strict',
 		secure: !dev,
-		maxAge: 60 * 60 * 24 * 30
+		maxAge: 0,
 	});
+  if (event.locals?.session) await event.locals.session.destroy();
 };
 
 export const saveSession = async (event, data): Promise<void> => {
-	if (event.locals?.session) await event.locals.session.set(data);
-	userId.set(data?.userId);
-	if (!!data.userId) event.cookies.set('uid', data.userId, {
-		path: '/',
-		httpOnly: true,
-		sameSite: 'strict',
-		secure: !dev,
-		maxAge: 60 * 60 * 24 * 30
-	});
+  if (!!data.accessToken) accessToken.set(data.accessToken);
+  if (!!data.userId) {
+    userId.set(data?.userId);
+    event.cookies.set('uid', data.userId, {
+  		path: '/',
+  		httpOnly: true,
+  		sameSite: 'strict',
+  		secure: !dev,
+  		maxAge: Number(PUBLIC_ENV.PUBLIC_TOKEN_EXPIRES_SEC),
+	  });
+  }
+  if (!data.expires) data.expires = Date.now() + Number(PUBLIC_ENV.PUBLIC_TOKEN_EXPIRES_SEC)*1000;
+  if (event.locals?.session) await event.locals.session.set(data);
 };
 
 export const refreshSession = async (event): Promise<string> => {
@@ -147,7 +152,6 @@ export const refreshSession = async (event): Promise<string> => {
 
 export const logout = async (event: any, redirectPath: string = '/auth'): Promise<void> => {
 	await destroySession(event);
-	userId.update('');
 	throw redirect(303, redirectPath);
 };
 

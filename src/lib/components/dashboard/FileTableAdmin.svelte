@@ -14,7 +14,7 @@
 
 	const updateFile = (file: AnyObject) => {
 		current_file = file;
-		console.log('current_file:', current_file);
+		if (PUBLIC_ENV.DEV) console.log('current_file:', current_file);
 	}
 
 	const cleanFilename = (filename?: string): string => {
