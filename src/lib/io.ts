@@ -17,8 +17,8 @@ if (io) {
   });
   io.on('connect', () => {
     if (PUBLIC_ENV.DEV) console.info('Connection with the Gateway established! | accessToken.length:', accessToken.get().length);
-    io.emit('call', 'v1.api.health', (error, res) => {
-      if (PUBLIC_ENV.DEV) console.info(`socketio.call('v1.api.health') error:`, error, 'res:', res);
+    io.emit('call', 'v1.io.ping', (error, res) => {
+      if (PUBLIC_ENV.DEV) console.info(`socketio.call('v1.io.ping') error:`, error, 'res:', res);
     });
   });
 }
