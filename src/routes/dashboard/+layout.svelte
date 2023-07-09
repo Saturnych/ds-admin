@@ -1,17 +1,49 @@
 <script lang="ts">
-	import { navigating } from '$app/stores';
+	import { setContext, onMount } from 'svelte';
+	import { Jumper } from 'svelte-loading-spinners';
+	import { themeChange } from 'theme-change';
+	import type { LayoutData } from './$types';
 	import DashboardMenu from '$lib/components/dashboard/DashboardMenu.svelte';
 	import DashboardNavBar from '$lib/components/dashboard/DashboardNavBar.svelte';
 	import DemoUserNotice from '$lib/components/DemoMode/DemoUserNotice.svelte';
 	import { Toast } from '$lib/components/Toast';
-	import { onMount } from 'svelte';
-	import { Jumper } from 'svelte-loading-spinners';
-	import { themeChange } from 'theme-change';
+	import { navigating } from '$app/stores';
+	import { userId, accessToken } from '$lib/stores';
+	import { io } from '$lib/io';
+	import PUBLIC_ENV from '$lib/public';
+
+	export let data: LayoutData;
+
+	let messages = [];
+	let textfield = '';
+  let username = '';
+
+	function sendMessage() {
+    const message = textfield.trim();
+    if (!message) return;
+    textfield = '';
+    if (io?.connected) io.emit('message', message);
+  }
 
 	// NOTE: the element that is using one of the theme attributes must be in the DOM on mount
 	onMount(() => {
 		themeChange(false);
 		// 👆 false parameter is required for svelte
+		try {
+			if (PUBLIC_ENV.DEV) console.info('io.connected:', io?.connected, `accessToken:`, (accessToken.get() || '').length);
+			if (io?.connected) {
+				io.on('message', (message) => {
+					if (PUBLIC_ENV.DEV) console.info(`io.on('message'):`, message);
+					messages = [...messages, message];
+	      });
+	      io.on('name', (name) => {
+	        if (PUBLIC_ENV.DEV) console.info(`io.on('name'):`, name);
+					username = name;
+	      });
+			}
+		} catch (err) {
+			console.error(err);
+		}
 	});
 </script>
 
