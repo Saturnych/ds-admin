@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import type { Session } from 'svelte-kit-cookie-session';
 import { redirect } from '@sveltejs/kit';
 import { dev } from '$app/environment';
-import { userId, accessToken } from '$lib/stores';
+import { userId, accessToken, refreshToken } from '$lib/stores';
 import PUBLIC_ENV from '$lib/public';
 
 export const userColor = (role: string) => {
@@ -106,9 +106,15 @@ export const postAction = async (form: Record<string,any>, token: string = '', s
   }
 };
 
+export const genAccessToken = async (token, type = 'Access') => {
+  const post = await postAction({ token, type }, '', 'auth', 'token');
+  return post?.data?.token;
+};
+
 export const destroySession = async (event): Promise<void> => {
 	userId.set('');
   accessToken.set('');
+  refreshToken.set('');
 	event.cookies.set('uid', '', {
 		path: '/',
 		httpOnly: true,
@@ -121,6 +127,7 @@ export const destroySession = async (event): Promise<void> => {
 
 export const saveSession = async (event, data): Promise<void> => {
   if (!!data.accessToken) accessToken.set(data.accessToken);
+  if (!!data.refreshToken) refreshToken.set(data.refreshToken);
   if (!!data.userId) {
     userId.set(data?.userId);
     event.cookies.set('uid', data.userId, {
@@ -139,13 +146,14 @@ export const refreshSession = async (event): Promise<string> => {
 	const session = event.locals?.session?.data || event.data?.session;
 	if (!session) return null;
 
-	const post = await postAction({ token: session.refreshToken, type: 'Access'}, '', 'auth', 'token');
-  if (PUBLIC_ENV.DEV) console.log('refreshSession post:', post);
+	const token = await accessToken.generate();
+  if (PUBLIC_ENV.DEV) console.log('refreshSession accessToken:', token);
 
-  if (!!post?.data?.token) {
-    session.accessToken = post.data.token;
+  if (!!token) {
+    session.accessToken = token;
     await saveSession(event, session);
   }
+
 	//await event.locals.session.refresh(/** Optional new expiration time in days */);
 	return session.accessToken;
 };
