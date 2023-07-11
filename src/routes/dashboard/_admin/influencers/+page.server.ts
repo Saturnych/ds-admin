@@ -29,7 +29,7 @@ export const actions: Actions = {
 				{
 					origin,
 					id_str,
-					name: nickname,
+					name,
 					screen_name: nickname,
 				}
 			]
