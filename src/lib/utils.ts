@@ -135,7 +135,7 @@ export const saveSession = async (event, data): Promise<void> => {
   		httpOnly: true,
   		sameSite: 'strict',
   		secure: !dev,
-  		maxAge: Number(PUBLIC_ENV.PUBLIC_TOKEN_EXPIRES_SEC),
+  		maxAge: Number(PUBLIC_ENV.PUBLIC_TOKEN_EXPIRES_SEC || 10800),
 	  });
   }
   if (!data.expires) data.expires = Date.now() + Number(PUBLIC_ENV.PUBLIC_TOKEN_EXPIRES_SEC)*1000;
