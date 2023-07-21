@@ -109,6 +109,22 @@
 				<div class="form-control">
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
+						<span class="label-text">Avatar URI</span>
+					</label>
+					<input
+						autocomplete="avatar"
+						id="avatar"
+						name="avatar"
+						class="input input-bordered"
+						type="text"
+						placeholder="avatar"
+						required
+					/>
+				</div>
+
+				<div class="form-control">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
+					<label class="label">
 						<span class="label-text">Page ID</span>
 					</label>
 					<input
