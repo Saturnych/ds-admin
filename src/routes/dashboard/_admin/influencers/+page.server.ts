@@ -21,9 +21,11 @@ export const actions: Actions = {
 		const cents = Math.round(Number(form_data.get('cost'))*100);
 		const origin = form_data.get('origin');
 		const nickname = form_data.get('nickname');
+		const avatar = form_data.get('avatar');
 		const id_str = form_data.get('id_str');
 		const influencer = {
 			name,
+			avatar,
 			cents,
 			platforms: [
 				{
