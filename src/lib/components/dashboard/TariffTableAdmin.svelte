@@ -24,7 +24,7 @@
 			<tr>
 				<td>{i+1}</td>
 				<td>{tariff.name}</td>
-				<td>{Math.round(tariff.credits)}</td>
+				<td>{Math.round(tariff.credits/100)}</td>
 				<td>${Math.round(tariff.cents/100)}</td>
 				<td>
 					<Time timestamp={tariff.createdAt} />
