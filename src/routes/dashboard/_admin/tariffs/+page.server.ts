@@ -19,7 +19,7 @@ export const actions: Actions = {
 		let tariffs: any[] = [];
 		const form_data = await event.request.formData();
 		const name = form_data.get('name');
-		const credits = Math.round(Number(form_data.get('credits')));
+		const credits = Math.round(Number(form_data.get('credits'))*100);
 		const cents = Math.round(Number(form_data.get('cost'))*100);
 		const tariff = {
 			name,
