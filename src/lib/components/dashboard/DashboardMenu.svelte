@@ -45,23 +45,11 @@
 			<span slot="icon"><HomeIcon /></span>
 		</NavBarButton>
 
-		<!--
-		<NavBarButton tooltip="Content" dest="/dashboard/contents">
-			<span slot="icon"><LayoutIcon /></span>
-		</NavBarButton>
-		-->
-
 		<NavBarButton tooltip="Games" dest="/dashboard/games">
 			<span slot="icon"><AirplayIcon /></span>
 		</NavBarButton>
 
 		{#if isAdmin(role) || isSuper(role)}
-			<!--
-			<NavBarButton tooltip="Files" dest="/dashboard/_admin/files">
-				<span slot="icon"><ArchiveIcon /></span>
-			</NavBarButton>
-			-->
-
 			<NavBarButton tooltip="Influencers" dest="/dashboard/_admin/influencers">
 				<span slot="icon"><RadioIcon /></span>
 			</NavBarButton>
@@ -78,13 +66,6 @@
 				<span slot="icon"><UsersIcon class="stroke-warning" /></span>
 			</NavBarButton>
 			<div class="divider" />
-
-			<!--
-			<NavBarButton tooltip="Organizations" dest="/dashboard/_super/orgs">
-				<span slot="icon"><ArchiveIcon class="stroke-accent" /></span>
-			</NavBarButton>
-			<div class="max-md:my-0 divider" />
-			-->
 		{/if}
 
 		<!--
