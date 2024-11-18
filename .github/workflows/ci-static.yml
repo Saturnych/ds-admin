@@ -1,0 +1,50 @@
+name: Static workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the "static" branch
+  push:
+    branches: [static]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.1'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        env:
+          PUBLIC_APP_NAME: ${{ vars.PUBLIC_APP_NAME }}
+          PUBLIC_IO_BASEURI: ${{ vars.PUBLIC_IO_BASEURI }}
+          PUBLIC_API_BASEURI: ${{ vars.PUBLIC_API_BASEURI }}
+          PUBLIC_API_VERSION: ${{ vars.PUBLIC_API_VERSION }}
+          PUBLIC_TOKEN_EXPIRES: ${{ vars.PUBLIC_TOKEN_EXPIRES }}
+          PUBLIC_TOKEN_EXPIRES_SEC: ${{ vars.PUBLIC_TOKEN_EXPIRES_SEC }}
+          PRIVATE_ENCRYPT_KEY: ${{ vars.PRIVATE_ENCRYPT_KEY }}
+        run: yarn build
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCS_CREDENTIALS }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Sync and upload to GCS bucket
+        run: |
+          gsutil -m rsync -d -r ./build gs://${{ vars.PUBLIC_APP_DOMAIN }}
