@@ -1,6 +1,6 @@
 {
 	"name": "DS.admin",
-	"version": "0.0.1",
+	"version": "0.0.2-vercel",
 	"description": "DS Admin SvelteKit",
 	"scripts": {
 		"dev": "vite dev --port 3003 --host",
@@ -9,13 +9,14 @@
 		"preview": "vite preview --port 3003 --host",
 		"start": "vite dev --host",
 		"test": "playwright test",
+		"test:unit": "vitest",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"author": "Denis Glebko",
+	"license": "MIT",
 	"devDependencies": {
 		"@playwright/test": "^1.30.0",
 		"@tailwindcss/typography": "^0.5.9",
@@ -52,6 +53,7 @@
 		"@supabase/auth-helpers-sveltekit": "^0.8.7",
 		"@supabase/supabase-js": "^2.8.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-vercel": "^2.0.0",
 		"@sveltejs/kit": "^1.6.0",
 		"axios": "^1.3.5",
 		"socket.io-client": "^4.7.1",
