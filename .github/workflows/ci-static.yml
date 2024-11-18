@@ -23,9 +23,6 @@ jobs:
           node-version: '20.11.1'
           cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install
-
       - name: Build
         env:
           PUBLIC_APP_NAME: ${{ vars.PUBLIC_APP_NAME }}
@@ -35,7 +32,10 @@ jobs:
           PUBLIC_TOKEN_EXPIRES: ${{ vars.PUBLIC_TOKEN_EXPIRES }}
           PUBLIC_TOKEN_EXPIRES_SEC: ${{ vars.PUBLIC_TOKEN_EXPIRES_SEC }}
           PRIVATE_ENCRYPT_KEY: ${{ vars.PRIVATE_ENCRYPT_KEY }}
-        run: yarn build
+          
+        run: |
+          yarn
+          yarn build
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
