@@ -122,7 +122,7 @@ export const destroySession = async (event): Promise<void> => {
 		secure: !dev,
 		maxAge: 0,
 	});
-  if (event.locals?.session) await event.locals.session.destroy();
+  if (event.locals?.session && 'destroy' in event.locals.session) await event.locals.session.destroy();
 };
 
 export const saveSession = async (event, data): Promise<void> => {

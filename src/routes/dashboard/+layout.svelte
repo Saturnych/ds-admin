@@ -5,14 +5,13 @@
 	import type { LayoutData } from './$types';
 	import DashboardMenu from '$lib/components/dashboard/DashboardMenu.svelte';
 	import DashboardNavBar from '$lib/components/dashboard/DashboardNavBar.svelte';
-	import DemoUserNotice from '$lib/components/DemoMode/DemoUserNotice.svelte';
 	import { Toast } from '$lib/components/Toast';
 	import { navigating } from '$app/stores';
 	import { userId, accessToken } from '$lib/stores';
 	import { io } from '$lib/io';
 	import PUBLIC_ENV from '$lib/public';
 
-	export let data: LayoutData;
+	//export let data: LayoutData;
 
 	let messages = [];
 	let textfield = '';
@@ -62,9 +61,6 @@
 			{:else}
 				<slot />
 			{/if}
-		</div>
-		<div class="w-full px-5 overflow-none">
-			<DemoUserNotice />
 		</div>
 	</div>
 </section>

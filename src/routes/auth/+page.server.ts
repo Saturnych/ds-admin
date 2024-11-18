@@ -1,7 +1,7 @@
 import { error, invalid, fail, redirect } from '@sveltejs/kit';
 import { writable, get } from 'svelte/store';
 import type { Actions, PageServerLoad } from './$types';
-import { postAction, saveSession } from '$lib/utils';
+import { destroySession, postAction, saveSession } from '$lib/utils';
 import { userId } from '$lib/stores';
 import PUBLIC_ENV from '$lib/public';
 
@@ -44,7 +44,7 @@ export const actions: Actions = {
 	},
 
 	signout: async (event) => {
-		await event.locals.session.destroy();
+		await destroySession(event);
 		throw redirect(303, '/auth');
 	}
 };
