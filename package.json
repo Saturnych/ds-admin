@@ -1,6 +1,6 @@
 {
 	"name": "DS.admin",
-	"version": "0.0.2-vercel",
+	"version": "0.0.2-auto",
 	"description": "DS Admin SvelteKit",
 	"scripts": {
 		"dev": "vite dev --port 3003 --host",
